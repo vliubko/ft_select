@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 16:31:26 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/23 16:31:26 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/23 16:32:35 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	set_raw_mode(t_select *data)
 
 void	set_default_mode(t_select *data)
 {
-
 	tputs(tgetstr("ve", NULL), 1, &term_putchar);
 	tputs(tgetstr("te", NULL), 1, &term_putchar);
 	data->tty = data->savetty;

@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/23 16:26:58 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/23 17:51:08 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,60 @@ int 	ft_error(char *str)
 	exit (1);
 }
 
+t_args	*create_node(char *name)
+{
+	t_args	*tmp;
+
+	tmp = (t_args*)malloc(sizeof(t_args));
+	tmp->value = ft_strdup(name);
+	tmp->sel = 0;
+	tmp->prev = NULL;
+	tmp->next = NULL;
+	return (tmp);
+}
+
+t_args	*get_args(int ac, char **av)
+{
+	int 	i;
+	t_args	*args;
+	t_args	*node;
+
+	i = 1;
+	while(i < ac)
+	{
+		node = create_node(av[i]);
+		ft_list_pushback(&args, node);
+		i++;
+	}
+	return (args);
+}
+
+void	term_print_output(t_select data)
+{
+	t_args	*tmp;
+
+	tmp = data.args;
+	while (tmp)
+	{
+		ft_putendl(tmp->value);
+		tmp = tmp->next;
+	}
+}
+
 int 	main(int ac, char **av)
 {
 	t_select	data;
 
-	(void)av;
 	if (ac < 2)
 		ft_error("Usage: ./ft_select file_name...\n");
+	data.args = get_args(ac, av);
 
+	set_raw_mode(&data);
+	term_print_output(data);
+
+	sleep(5);
+
+	set_default_mode(&data);
 //	printf("%s\n", ttyname(STDIN_FILENO));
 //
 //	if (isatty(5))
@@ -61,15 +107,6 @@ int 	main(int ac, char **av)
 //		continue ;
 //	}
 //
-
-//	ft_putstr(CLEAR);
-	set_raw_mode(&data);
-	ft_putendl("wait 5 sec");
-	sleep(5);
-	ft_putendl("5 sec gone");
-	set_default_mode(&data);
-
-//	tputs(, 0, &tc_putchar);
 
 	return (0);
 }

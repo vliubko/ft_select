@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+         #
+#    By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/06 18:46:49 by vliubko           #+#    #+#              #
-#    Updated: 2018/04/20 14:36:43 by vliubko          ###   ########.fr        #
+#    Updated: 2018/04/23 16:32:49 by vliubko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ LIBFT		:= libft/libft.a
 HEADER		 = includes/ft_select.h
 
 FILES		:= main \
-               terminal_mode
+               terminal_mode \
+               list_functions
 
 S_DIR 	= src
 O_DIR 	= obj
