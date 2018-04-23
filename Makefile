@@ -15,12 +15,13 @@ NAME		:= ft_select
 CC			:= gcc
 CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -I includes -I libft/includes
-LDFLAGS		:= -L libft/ -lft
+LDFLAGS		:= -L libft/ -lft -ltermcap
 
 LIBFT		:= libft/libft.a
 HEADER		 = includes/ft_select.h
 
-FILES		:= main
+FILES		:= main \
+               terminal_mode
 
 S_DIR 	= src
 O_DIR 	= obj
