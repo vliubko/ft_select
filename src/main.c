@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/27 18:02:31 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/27 19:49:00 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,44 @@ t_args	*create_node(char *name, int first)
 t_args	*get_args(int ac, char **av)
 {
 	int 	i;
-	t_args	*args;
 	t_args	*node;
+	t_args	*head;
 
 	i = 1;
-	while(i < ac)
+	node = create_node(av[i], i);
+	head = node;
+	while(++i < ac)
 	{
-		node = create_node(av[i], i);
-		ft_list_pushback(&args, node);
-		i++;
+		node->next = create_node(av[i], i);
+		node->next->prev = node;
+		node = node->next;
 	}
-	return (args);
+	head->prev = node;
+	return (head);
+}
+
+void 	select_underline_print(t_args *node)
+{
+	if (node->select)
+		tputs(tgetstr("so", NULL), 1, &term_putchar);
+	if (node->underline)
+		tputs(tgetstr("us", NULL), 1, &term_putchar);
+	ft_putendl(node->value);
+	if (node->select)
+		tputs(tgetstr("se", NULL), 1, &term_putchar);
+	if (node->underline)
+		tputs(tgetstr("ue", NULL), 1, &term_putchar);
 }
 
 void	term_print_output(t_select data)
 {
-	t_args	*tmp;
+	t_args	*node;
 
-	tmp = data.args;
-	while (tmp)
+	node = data.args;
+	while (node)
 	{
-		ft_putendl(tmp->value);
-		tmp = tmp->next;
+		select_underline_print(node);
+		node = node->next;
 	}
 }
 
@@ -84,6 +100,7 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		ft_error("Usage: ./ft_select file_name...\n");
 	data.args = get_args(ac, av);
+	data.length = ac - 1;
 	execution(data);
 
 	return (0);

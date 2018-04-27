@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/27 18:11:06 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/27 18:49:46 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@ typedef struct		s_select
 	struct s_args	*args;
 }					t_select;
 
-# define CLEAR "\033[H\033[2J"
-# define ESC 27
+# define 	CLEAR "\033[H\033[2J"
+# define 	ESC 27
+# define	BACKSPACE	127
+# define	ENTER		10
+# define	SPACE		32
+# define	DEL		2117294875
+# define	UP_ARROW	4283163
+# define	DOWN_ARROW	4348699
 
 void	ft_list_pushback(t_args **alst, t_args *new_node);
 void	execution(t_select data);
