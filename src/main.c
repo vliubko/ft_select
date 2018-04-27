@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/23 17:51:08 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/27 18:02:31 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ int 	ft_error(char *str)
 	exit (1);
 }
 
-t_args	*create_node(char *name)
+t_args	*create_node(char *name, int first)
 {
 	t_args	*tmp;
 
 	tmp = (t_args*)malloc(sizeof(t_args));
 	tmp->value = ft_strdup(name);
-	tmp->sel = 0;
+	tmp->underline = (first == 1) ? 1 : 0;
+	tmp->select = 0;
 	tmp->prev = NULL;
 	tmp->next = NULL;
 	return (tmp);
@@ -57,7 +58,7 @@ t_args	*get_args(int ac, char **av)
 	i = 1;
 	while(i < ac)
 	{
-		node = create_node(av[i]);
+		node = create_node(av[i], i);
 		ft_list_pushback(&args, node);
 		i++;
 	}
@@ -83,30 +84,7 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		ft_error("Usage: ./ft_select file_name...\n");
 	data.args = get_args(ac, av);
-
-	set_raw_mode(&data);
-	term_print_output(data);
-
-	sleep(5);
-
-	set_default_mode(&data);
-//	printf("%s\n", ttyname(STDIN_FILENO));
-//
-//	if (isatty(5))
-//		printf("File Descriptor is a tty\n");
-//	else
-//		printf("File Descriptor is NOT a tty\n");
-//	struct winsize w;
-//	ioctl(0, TIOCGWINSZ, &w);
-//
-//	printf ("lines %d\n", w.ws_row);
-//	printf ("columns %d\n", w.ws_col);
-//
-//	for (int i = 0; i< 1000000; i++)
-//	{
-//		continue ;
-//	}
-//
+	execution(data);
 
 	return (0);
 }

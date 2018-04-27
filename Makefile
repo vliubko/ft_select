@@ -22,7 +22,8 @@ HEADER		 = includes/ft_select.h
 
 FILES		:= main \
                terminal_mode \
-               list_functions
+               list_functions \
+               execution
 
 S_DIR 	= src
 O_DIR 	= obj
