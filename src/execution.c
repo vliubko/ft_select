@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/27 18:27:53 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/04/27 18:29:41 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	key_handler(t_select data)
 
 void	clear_term(void)
 {
-	tputs(tgetstr("ve", NULL), 1, &term_putchar);
+	tputs(tgetstr("cl", NULL), 1, &term_putchar);
 }
 
 void	execution(t_select data)
