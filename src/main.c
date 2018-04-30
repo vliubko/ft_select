@@ -64,6 +64,7 @@ t_args	*get_args(int ac, char **av)
 		node->next->prev = node;
 		node = node->next;
 	}
+	node->next = head;
 	head->prev = node;
 	return (head);
 }
@@ -84,12 +85,15 @@ void 	select_underline_print(t_args *node)
 void	term_print_output(t_select data)
 {
 	t_args	*node;
+	int 	i;
 
 	node = data.args;
-	while (node)
+	i = 0;
+	while (i < data.length)
 	{
 		select_underline_print(node);
 		node = node->next;
+		i++;
 	}
 }
 

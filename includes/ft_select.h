@@ -40,10 +40,10 @@ typedef struct		s_select
 }					t_select;
 
 # define 	CLEAR "\033[H\033[2J"
-# define 	ESC 27
+# define 	ESC 32539
 # define	BACKSPACE	127
 # define	ENTER		10
-# define	SPACE		32
+# define	SPACE		32544
 # define	DEL		2117294875
 # define	UP_ARROW	4283163
 # define	DOWN_ARROW	4348699
