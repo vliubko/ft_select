@@ -82,14 +82,14 @@ void 	select_underline_print(t_args *node)
 		tputs(tgetstr("ue", NULL), 1, &term_putchar);
 }
 
-void	term_print_output(t_select data)
+void	term_print_output(t_select *data)
 {
 	t_args	*node;
 	int 	i;
 
-	node = data.args;
+	node = data->args;
 	i = 0;
-	while (i < data.length)
+	while (i < data->length)
 	{
 		select_underline_print(node);
 		node = node->next;

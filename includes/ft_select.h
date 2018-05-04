@@ -41,6 +41,7 @@ typedef struct		s_select
 
 # define 	CLEAR "\033[H\033[2J"
 # define 	ESC 32539
+# define 	ESC_ALTERN 27
 # define	BACKSPACE	127
 # define	ENTER		10
 # define	SPACE		32544
@@ -53,7 +54,7 @@ void	execution(t_select data);
 void	set_default_mode(t_select *data);
 void	set_raw_mode(t_select *data);
 int		term_putchar(int c);
-void	term_print_output(t_select data);
+void	term_print_output(t_select *data);
 int 	ft_error(char *str);
 
 #endif
