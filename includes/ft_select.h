@@ -58,5 +58,7 @@ void	set_raw_mode(t_select *data);
 int		term_putchar(int c);
 void	term_print_output(t_select *data);
 int 	ft_error(char *str);
+int 	count_max_cols(t_select *data);
+void	get_winsize(struct winsize *win);
 
 #endif

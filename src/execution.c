@@ -82,6 +82,8 @@ void	execution(t_select data)
 	set_raw_mode(&data);
 	while (42)
 	{
+		get_winsize(&data.win);
+		data.cols = count_max_cols(&data);
 		term_print_output(&data);
 		key_handler(data);
 		clear_term();

@@ -27,7 +27,7 @@ int 	count_max_size(t_select *data)
 	i = 0;
 	list = data->args;
 	max_size = 0;
-	while (i < data->win.ws_row)
+	while (i < data->length)
 	{
 		current_node_size = ft_strlen(list->value);
 		if (current_node_size > max_size)
@@ -145,10 +145,8 @@ int 	main(int ac, char **av)
 
 	if (ac < 2)
 		ft_error("Usage: ./ft_select file_name...\n");
-	data.args = get_args(ac, av);
 	data.length = ac - 1;
-	get_winsize(&data.win);
-	data.cols = count_max_cols(&data);
+	data.args = get_args(ac, av);
 	execution(data);
 
 	return (0);
