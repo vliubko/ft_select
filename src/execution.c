@@ -39,29 +39,24 @@ void	underline_space_change(t_select *data, int key)
 	}
 }
 
-//void	space_change(t_select *data)
-//{
-//	int 	i;
-//
-//	i = 0;
-//	while (i < data->length)
-//	{
-//		if (data->args->underline == 1)
-//		{
-//			data->args->underline = 0;
-//			data->args->next->underline = 1;
-//			data->args->select = (data->args->select == 1) ? 0 : 1;
-//			break ;
-//		}
-//		data->args = data->args->next;
-//		i++;
-//	}
-//}
+void 	handle_winch(int sig)
+{
+	char 	buf[4];
+	if (sig == SIGWINCH)
+	{
+		buf[0] = -55;
+		ioctl(STDERR_FILENO, TIOCSTI, buf);
+//		write(2, tgetstr("cl", 0), strlen(tgetstr("cl", 0)));
+//		ft_putendl("   Resing window, one moment, please...");
+//		sleep(1);
+	}
+}
 
 void	key_handler(t_select data)
 {
 	int		key;
 
+	signal(SIGWINCH, handle_winch);
 	read(0, &key, 4);
 //	printf("key: %d\n", key);
 //	sleep(1);

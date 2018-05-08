@@ -17,6 +17,7 @@
 //# include <termcap.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <signal.h>
 //# include <sys/param.h>
 # include <term.h>
 # include <curses.h>
@@ -37,6 +38,7 @@ typedef struct		s_select
 	struct termios	savetty;
 	struct winsize	win;
 	struct s_args	*args;
+	int 			cols;
 }					t_select;
 
 # define 	CLEAR "\033[H\033[2J"
