@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/27 19:49:00 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 12:03:15 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	get_winsize(struct winsize *win)
 	ioctl(0, TIOCGWINSZ, win);
 }
 
-int 	count_max_size(t_select *data)
+int		count_max_size(t_select *data)
 {
-	t_args			*list;
-	int 			current_node_size;
-	int				max_size;
-	int 		i;
+	t_args	*list;
+	int		current_node_size;
+	int		max_size;
+	int		i;
 
 	i = 0;
 	list = data->args;
@@ -38,14 +38,14 @@ int 	count_max_size(t_select *data)
 	return (max_size);
 }
 
-int 	count_max_cols(t_select *data)
+int		count_max_cols(t_select *data)
 {
 	int		cols;
 
 	cols = data->length / (data->win.ws_col - 1);
 	if (!cols)
 		cols = 1;
-	return(cols);
+	return (cols);
 }
 
 int		term_putchar(int c)
@@ -54,10 +54,10 @@ int		term_putchar(int c)
 	return (1);
 }
 
-int 	ft_error(char *str)
+int		ft_error(char *str)
 {
 	ft_putstr_fd(str, 2);
-	exit (1);
+	exit(1);
 }
 
 t_args	*create_node(char *name, int first)
@@ -75,14 +75,14 @@ t_args	*create_node(char *name, int first)
 
 t_args	*get_args(int ac, char **av)
 {
-	int 	i;
+	int		i;
 	t_args	*node;
 	t_args	*head;
 
 	i = 1;
 	node = create_node(av[i], i);
 	head = node;
-	while(++i < ac)
+	while (++i < ac)
 	{
 		node->next = create_node(av[i], i);
 		node->next->prev = node;
@@ -93,7 +93,7 @@ t_args	*get_args(int ac, char **av)
 	return (head);
 }
 
-void 	select_underline_print(t_args *node)
+void	select_underline_print(t_args *node)
 {
 	if (node->select)
 		tputs(tgetstr("so", NULL), 1, &term_putchar);
@@ -109,10 +109,10 @@ void 	select_underline_print(t_args *node)
 void	term_print_output(t_select *data)
 {
 	t_args	*node;
-	int 	i;
-	int 	row;
-	int 	cur_width;
-	int 	max_width;
+	int		i;
+	int		row;
+	int		cur_width;
+	int		max_width;
 
 	node = data->args;
 	i = 0;
@@ -131,15 +131,9 @@ void	term_print_output(t_select *data)
 		cur_width += max_width + 1;
 		tputs(tgoto(tgetstr("cm", NULL), cur_width, 0), 1, &term_putchar);
 	}
-//	ft_putstr("ws_col: ");
-//	ft_putnbr(data->win.ws_col);
-//	ft_putendl("");
-//	ft_putstr("ws_row: ");
-//	ft_putnbr(data->win.ws_row);
-//	ft_putendl("");
 }
 
-int 	main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_select	data;
 
@@ -148,6 +142,5 @@ int 	main(int ac, char **av)
 	data.length = ac - 1;
 	data.args = get_args(ac, av);
 	execution(data);
-
 	return (0);
 }

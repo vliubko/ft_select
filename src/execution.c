@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/04/27 19:51:25 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 11:59:49 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,14 @@ void	underline_space_change(t_select *data, int key)
 	}
 }
 
-void 	handle_winch(int sig)
+void	handle_winch(int sig)
 {
-	char 	buf[4];
+	char	buf[4];
+
 	if (sig == SIGWINCH)
 	{
 		buf[0] = -55;
 		ioctl(STDERR_FILENO, TIOCSTI, buf);
-//		write(2, tgetstr("cl", 0), strlen(tgetstr("cl", 0)));
-//		ft_putendl("   Resing window, one moment, please...");
-//		sleep(1);
 	}
 }
 
@@ -60,16 +58,13 @@ void	key_handler(t_select data)
 	read(0, &key, 4);
 //	printf("key: %d\n", key);
 //	sleep(1);
-
 	if (key == ESC || key == ESC_ALTERN)
 	{
 		set_default_mode(&data);
-		exit (0);
+		exit(0);
 	}
 	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE)
 		underline_space_change(&data, key);
-//	if (key == SPACE)
-//		space_change(&data);
 }
 
 void	clear_term(void)
