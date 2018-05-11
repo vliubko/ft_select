@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 11:59:49 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 15:45:04 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,47 @@
 void	underline_space_change(t_select *data, int key)
 {
 	int		i;
+	t_args	*list;
 
+	list = data->args;
 	i = 0;
 	while (i < data->length)
 	{
-		if (data->args->underline == 1)
+		if (list->underline == 1)
 		{
-			data->args->underline = 0;
+			list->underline = 0;
 			if (key == DOWN_ARROW)
-				data->args->next->underline = 1;
+				list->next->underline = 1;
 			if (key == UP_ARROW)
-				data->args->prev->underline = 1;
+				list->prev->underline = 1;
 			if (key == SPACE)
 			{
-				data->args->underline = 0;
-				data->args->next->underline = 1;
-				data->args->select = (data->args->select == 1) ? 0 : 1;
+				list->underline = 0;
+				list->next->underline = 1;
+				list->select = (list->select == 1) ? 0 : 1;
 			}
 			break ;
 		}
-		data->args = data->args->next;
+		list = list->next;
+		i++;
+	}
+}
+
+void	remove_arg(t_select *data)
+{
+	int 	i;
+	t_args	*list;
+
+	list = data->args;
+	i = 0;
+	while (i < data->length)
+	{
+		if (list->underline == 1)
+		{
+			ft_list_remove_node(data, list);
+			break ;
+		}
+		list = list->next;
 		i++;
 	}
 }
@@ -50,7 +71,7 @@ void	handle_winch(int sig)
 	}
 }
 
-void	key_handler(t_select data)
+void	key_handler(t_select *data)
 {
 	int		key;
 
@@ -60,11 +81,13 @@ void	key_handler(t_select data)
 //	sleep(1);
 	if (key == ESC || key == ESC_ALTERN)
 	{
-		set_default_mode(&data);
+		set_default_mode(data);
 		exit(0);
 	}
 	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE)
-		underline_space_change(&data, key);
+		underline_space_change(data, key);
+	if (key == BACKSPACE || key == BACKSPACE_ALTERN || key == DEL)
+		remove_arg(data);
 }
 
 void	clear_term(void)
@@ -80,7 +103,7 @@ void	execution(t_select data)
 		get_winsize(&data.win);
 		data.cols = count_max_cols(&data);
 		term_print_output(&data);
-		key_handler(data);
+		key_handler(&data);
 		clear_term();
 	}
 }
