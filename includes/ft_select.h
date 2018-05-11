@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 15:49:07 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 17:44:12 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct		s_select
 # define 	RED_FONT "\e[38;5;196m"
 # define 	GREEN_FONT "\e[38;5;46m"
 # define 	YELLOW_FONT "\e[38;5;226m"
+# define 	COLOR_OFF "\e[0m"
 # define 	CLEAR "\033[H\033[2J"
 # define 	ESC 32539
 # define 	ESC_ALTERN 27
@@ -65,7 +66,9 @@ int		term_putchar(int c);
 void	term_print_output(t_select *data);
 int 	ft_error(char *str);
 int 	count_max_cols(t_select *data);
+int		count_max_size(t_select *data);
 void	get_winsize(struct winsize *win);
+int		check_win_size(t_select *data, int cur_width, int max_width);
 void	clear_term(void);
 
 #endif

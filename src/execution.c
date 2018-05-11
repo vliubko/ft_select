@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 15:45:04 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 17:57:37 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,24 @@ void	key_handler(t_select *data)
 void	clear_term(void)
 {
 	tputs(tgetstr("cl", NULL), 1, &term_putchar);
+}
+
+int		check_win_size(t_select *data, int cur_width, int max_width)
+{
+	if (cur_width + max_width > data->win.ws_col) {
+		clear_term();
+		ft_putstr(RED_FONT);
+		ft_putendl("Your window is too small to show all files.");
+		ft_putstr("Please, resize it before doing something");
+		if (data->win.ws_col <= 44)
+		{
+			clear_term();
+			ft_putstr("ERROR");
+		}
+		ft_putstr(COLOR_OFF);
+		return (1);
+	}
+	return (0);
 }
 
 void	execution(t_select data)

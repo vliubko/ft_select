@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:35:48 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 15:50:31 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 16:03:40 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void 	ft_list_remove_node(t_select *data, t_args *node_to_delete)
 	data->length--;
 	if (data->length == 0)
 	{
+		ft_strdel(&node_to_delete->value);
+		free(node_to_delete);
 		clear_term();
 		ft_putstr(RED_FONT);
 		ft_putendl("You have deleted all files. Bye-bye");

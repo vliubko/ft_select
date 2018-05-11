@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 15:52:25 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/11 17:44:12 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void	term_print_output(t_select *data)
 	while (i < data->length)
 	{
 		row = 0;
+		if (check_win_size(data, cur_width, max_width))
+			break ;
 		while (row < data->win.ws_row && i++ < data->length)
 		{
 			select_underline_print(node);
