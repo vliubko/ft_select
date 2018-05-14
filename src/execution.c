@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 11:12:57 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 13:38:45 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,30 @@ void	handle_winch(int sig)
 	}
 }
 
+void	return_selected(t_select *data)
+{
+	int 	i;
+	int 	first;
+
+	i = 0;
+	first = 0;
+//	ft_putendl("hello");
+//	sleep(1);
+	set_default_mode(data);
+	while (i < data->length)
+	{
+		if (first && data->args->select)
+			ft_putstr(" ");
+		first = 1;
+		if (data->args->select)
+			ft_putstr(data->args->value);
+		data->args = data->args->next;
+		i++;
+	}
+	ft_free_select(data);
+	exit(0);
+}
+
 void	key_handler(t_select *data)
 {
 	int		key;
@@ -81,13 +105,16 @@ void	key_handler(t_select *data)
 //	sleep(1);
 	if (key == ESC || key == ESC_ALTERN)
 	{
+		ft_free_select(data);
 		set_default_mode(data);
 		exit(0);
 	}
-	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE)
+	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE || key == SPACE_1)
 		underline_space_change(data, key);
-	if (key == BACKSPACE || key == BACKSPACE_ALTERN || key == DEL)
+	if (key == BACKSPACE || key == BACKSPACE_1 || key == DEL)
 		remove_arg(data);
+	if (key == ENTER || key == ENTER_1)
+		return_selected(data);
 }
 
 void	clear_term(void)
@@ -120,7 +147,7 @@ void	execution(t_select data)
 	{
 		get_winsize(&data.win);
 		data.cols = count_max_cols(&data);
-		term_print_output(&data);
+		term_print_args(&data);
 		key_handler(&data);
 		clear_term();
 	}

@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 12:44:38 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 13:49:34 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int 	get_arg_type(char *value)
 	fullpath = ft_strjoin(getcwd(cur_dir, MAXPATHLEN), "/");
 	fullpath = ft_strjoin_free(fullpath, value, 0);
 	if (lstat(fullpath, &s) == -1)
+	{
+		ft_strdel(&fullpath);
 		return (-1);
+	}
+	ft_strdel(&fullpath);
 	if (S_ISDIR(s.st_mode))
 		return (1);
 	if (s.st_mode & S_IXUSR)
@@ -137,7 +141,7 @@ void	select_underline_print(t_args *node)
 		tputs(tgetstr("ue", NULL), 1, &term_putchar);
 }
 
-void	term_print_output(t_select *data)
+void	term_print_args(t_select *data)
 {
 	t_args	*node;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:35:48 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 12:06:45 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 13:03:04 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	ft_list_pushback(t_args **alst, t_args *new_node)
 	else
 		*alst = new_node;
 	new_node->prev = tmp;
+}
+
+void	ft_free_select(t_select *data)
+{
+	int 	i;
+	t_args	*delete;
+
+	i = 0;
+	while (i < data->length)
+	{
+		delete = data->args;
+		data->args = data->args->next;
+		ft_strdel(&delete->value);
+		free(delete);
+		i++;
+	}
 }
 
 void 	ft_list_remove_node(t_select *data, t_args *node_to_delete, int i)
