@@ -89,15 +89,12 @@ void	remove_arg(t_select *data)
 	}
 }
 
-void	handle_winch(int sig)
+void	handle_winch(void)
 {
 	char	buf[4];
 
-	if (sig == SIGWINCH)
-	{
-		buf[0] = -55;
-		ioctl(STDERR_FILENO, TIOCSTI, buf);
-	}
+	buf[0] = -55;
+	ioctl(STDERR_FILENO, TIOCSTI, buf);
 }
 
 void	return_selected(t_select *data)
@@ -105,18 +102,18 @@ void	return_selected(t_select *data)
 	int 	i;
 	int 	first;
 
-	i = 0;
-	first = 0;
-//	ft_putendl("hello");
-//	sleep(1);
 	set_default_mode(data);
+	first = 0;
+	i = 0;
 	while (i < data->length)
 	{
 		if (first && data->args->select)
 			ft_putstr(" ");
-		first = 1;
 		if (data->args->select)
+		{
 			ft_putstr(data->args->value);
+			first = 1;
+		}
 		data->args = data->args->next;
 		i++;
 	}
@@ -128,7 +125,6 @@ void	key_handler(t_select *data)
 {
 	int		key;
 
-	signal(SIGWINCH, handle_winch);
 	read(0, &key, 4);
 //	printf("key: %d\n", key);
 //	sleep(1);

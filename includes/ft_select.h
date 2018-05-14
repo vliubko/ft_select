@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 14:25:56 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 18:30:08 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ void	get_winsize(struct winsize *win);
 int		check_win_size(t_select *data, int cur_width, int max_width);
 void	clear_term(void);
 void	ft_free_select(t_select *data);
+void	handle_winch(void);
+void	signals(void);
+
 
 #endif

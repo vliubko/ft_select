@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 14:44:43 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 19:00:19 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,63 @@ void	term_print_args(t_select *data)
 	}
 }
 
+t_select	*data_keeper(t_select *dt)
+{
+	static t_select *data;
+
+	if (dt)
+		data = dt;
+	return (data);
+}
+
+void	exit_signal(t_select *data)
+{
+	set_default_mode(data);
+	ft_free_select(data);
+	exit(0);
+}
+
+void	sig_callback(int signo)
+{
+	t_select 	*data;
+
+	data = data_keeper(NULL);
+	clear_term();
+	ft_putnbr(signo);
+	sleep(2);
+	if (signo == SIGINT || signo == SIGABRT || signo == SIGSTOP ||
+		signo == SIGKILL || signo == SIGQUIT)
+	{
+//		clear_term();
+//		ft_putendl("EXIT NOW!");
+//		sleep(2);
+		exit_signal(data);
+	}
+
+	else if (signo == SIGWINCH)
+		handle_winch();
+}
+
+void	signals(void)
+{
+	signal(SIGINT, sig_callback);
+	signal(SIGABRT, sig_callback);
+	signal(SIGSTOP, sig_callback);
+	signal(SIGKILL, sig_callback);
+	signal(SIGQUIT, sig_callback);
+	signal(SIGWINCH, sig_callback);
+	signal(SIGTSTP, sig_callback);
+	signal(SIGCONT, sig_callback);
+}
+
 int		main(int ac, char **av)
 {
 	t_select	data;
 
 	if (ac < 2)
 		ft_error("Usage: ./ft_select file_name...\n");
+	data_keeper(&data);
+	signals();
 	data.length = ac - 1;
 	data.args = get_args(ac, av);
 	execution(data);
