@@ -12,6 +12,37 @@
 
 #include "ft_select.h"
 
+void 	moves_up_down (t_args *node, int key)
+{
+	if (key == DOWN_ARROW)
+		node->next->underline = 1;
+	if (key == UP_ARROW)
+		node->prev->underline = 1;
+}
+
+void	moves_right_left(t_args *node, int key)
+{
+	t_args	*list;
+	int 	row_to_find;
+
+	list = node;
+	row_to_find = list->row;
+	if (key == RIGHT_ARROW)
+	{
+		list = list->next;
+		while (list->row != row_to_find)
+			list = list->next;
+	}
+	if (key == LEFT_ARROW)
+	{
+		list = list->prev;
+		while (list->row != row_to_find)
+			list = list->prev;
+	}
+	if (key == LEFT_ARROW || key == RIGHT_ARROW)
+		list->underline = 1;
+}
+
 void	underline_space_change(t_select *data, int key)
 {
 	int		i;
@@ -24,10 +55,8 @@ void	underline_space_change(t_select *data, int key)
 		if (list->underline == 1)
 		{
 			list->underline = 0;
-			if (key == DOWN_ARROW)
-				list->next->underline = 1;
-			if (key == UP_ARROW)
-				list->prev->underline = 1;
+			moves_up_down(list, key);
+			moves_right_left(list, key);
 			if (key == SPACE)
 			{
 				list->underline = 0;
@@ -109,7 +138,8 @@ void	key_handler(t_select *data)
 		set_default_mode(data);
 		exit(0);
 	}
-	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE || key == SPACE_1)
+	if (key == UP_ARROW || key == DOWN_ARROW || key == SPACE ||
+			key == SPACE_1 || key == LEFT_ARROW || key == RIGHT_ARROW)
 		underline_space_change(data, key);
 	if (key == BACKSPACE || key == BACKSPACE_1 || key == DEL)
 		remove_arg(data);
@@ -124,7 +154,8 @@ void	clear_term(void)
 
 int		check_win_size(t_select *data, int cur_width, int max_width)
 {
-	if (cur_width + max_width > data->win.ws_col) {
+	if (cur_width + max_width > data->win.ws_col)
+	{
 		clear_term();
 		ft_putstr_fd(RED_FONT, 2);
 		ft_putendl_fd("Your window is too small to show all files.", 2);

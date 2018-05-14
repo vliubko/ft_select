@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 13:53:24 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 14:25:56 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct		s_args
 	int 			select;
 	int 			underline;
 	int 			type;
+	int 			row;
 	struct s_args	*next;
 	struct s_args	*prev;
 }					t_args;
@@ -48,6 +49,7 @@ typedef struct		s_select
 # define 	RED_FONT "\033[1;31m"
 # define 	CYAN_FONT "\e[1;36m"
 # define 	GREEN_FONT "\e[38;5;46m"
+# define 	PURPLE_FONT "\e[1;35m"
 # define 	YELLOW_FONT "\e[38;5;226m"
 # define 	COLOR_OFF "\e[0m"
 # define 	CLEAR "\033[H\033[2J"
@@ -62,6 +64,8 @@ typedef struct		s_select
 # define	SPACE_1		32
 # define	UP_ARROW	4283163
 # define	DOWN_ARROW	4348699
+# define 	LEFT_ARROW	4479771
+# define 	RIGHT_ARROW	4414235
 
 void	ft_list_pushback(t_args **alst, t_args *new_node);
 void 	ft_list_remove_node(t_select *data, t_args *node, int i);

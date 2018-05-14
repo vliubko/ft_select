@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 13:49:34 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 14:44:43 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,38 @@ int		term_putchar(int c)
 
 int		ft_error(char *str)
 {
+	ft_putstr_fd(RED_FONT, 2);
 	ft_putstr_fd(str, 2);
+	ft_putstr_fd(COLOR_OFF, 2);
 	exit(1);
 }
+
+
 
 int 	get_arg_type(char *value)
 {
 	char 		*fullpath;
 	char		cur_dir[MAXPATHLEN];
-
 	struct stat	s;
-
-	fullpath = ft_strjoin(getcwd(cur_dir, MAXPATHLEN), "/");
-	fullpath = ft_strjoin_free(fullpath, value, 0);
-	if (lstat(fullpath, &s) == -1)
+	if (value[0] != '/')
 	{
+		fullpath = ft_pathjoin(getcwd(cur_dir, MAXPATHLEN), value);
+		if (lstat(fullpath, &s) == -1)
+		{
+			ft_strdel(&fullpath);
+			return (-1);
+		}
 		ft_strdel(&fullpath);
-		return (-1);
 	}
-	ft_strdel(&fullpath);
+	else
+	{
+		if (lstat(value, &s) == -1)
+			return (-1);
+	}
 	if (S_ISDIR(s.st_mode))
 		return (1);
+	if (S_ISLNK(s.st_mode))
+		return (3);
 	if (s.st_mode & S_IXUSR)
 		return (2);
 	return (0);
@@ -124,6 +135,8 @@ void	put_color_arg_type(t_args *node)
 		ft_putstr_fd(CYAN_FONT, 2);
 	else if (node->type == 2)
 		ft_putstr_fd(RED_FONT, 2);
+	else if (node->type == 3)
+		ft_putstr_fd(PURPLE_FONT, 2);
 }
 
 void	select_underline_print(t_args *node)
@@ -162,6 +175,7 @@ void	term_print_args(t_select *data)
 		while (row < data->win.ws_row && i++ < data->length)
 		{
 			select_underline_print(node);
+			node->row = row;
 			tputs(tgoto(tgetstr("cm", NULL), cur_width, ++row), 1, &term_putchar);
 			node = node->next;
 		}
