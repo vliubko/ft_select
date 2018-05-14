@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 17:44:12 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 12:44:38 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,24 @@ int		ft_error(char *str)
 	exit(1);
 }
 
+int 	get_arg_type(char *value)
+{
+	char 		*fullpath;
+	char		cur_dir[MAXPATHLEN];
+
+	struct stat	s;
+
+	fullpath = ft_strjoin(getcwd(cur_dir, MAXPATHLEN), "/");
+	fullpath = ft_strjoin_free(fullpath, value, 0);
+	if (lstat(fullpath, &s) == -1)
+		return (-1);
+	if (S_ISDIR(s.st_mode))
+		return (1);
+	if (s.st_mode & S_IXUSR)
+		return (2);
+	return (0);
+}
+
 t_args	*create_node(char *name, int first)
 {
 	t_args	*tmp;
@@ -68,6 +86,7 @@ t_args	*create_node(char *name, int first)
 	tmp->value = ft_strdup(name);
 	tmp->underline = (first == 1) ? 1 : 0;
 	tmp->select = 0;
+	tmp->type = get_arg_type(tmp->value);
 	tmp->prev = NULL;
 	tmp->next = NULL;
 	return (tmp);
@@ -93,13 +112,25 @@ t_args	*get_args(int ac, char **av)
 	return (head);
 }
 
+void	put_color_arg_type(t_args *node)
+{
+	if (node->type == -1)
+		ft_putstr_fd(YELLOW_FONT, 2);
+	else if (node->type == 1)
+		ft_putstr_fd(CYAN_FONT, 2);
+	else if (node->type == 2)
+		ft_putstr_fd(RED_FONT, 2);
+}
+
 void	select_underline_print(t_args *node)
 {
+	put_color_arg_type(node);
 	if (node->select)
 		tputs(tgetstr("so", NULL), 1, &term_putchar);
 	if (node->underline)
 		tputs(tgetstr("us", NULL), 1, &term_putchar);
-	ft_putstr(node->value);
+	ft_putstr_fd(node->value, 2);
+	ft_putstr_fd(COLOR_OFF, 2);
 	if (node->select)
 		tputs(tgetstr("se", NULL), 1, &term_putchar);
 	if (node->underline)

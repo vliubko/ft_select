@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:35:48 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 16:03:40 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 12:06:45 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_list_pushback(t_args **alst, t_args *new_node)
 	new_node->prev = tmp;
 }
 
-void 	ft_list_remove_node(t_select *data, t_args *node_to_delete)
+void 	ft_list_remove_node(t_select *data, t_args *node_to_delete, int i)
 {
 	t_args *next;
 
@@ -39,8 +39,8 @@ void 	ft_list_remove_node(t_select *data, t_args *node_to_delete)
 		ft_strdel(&node_to_delete->value);
 		free(node_to_delete);
 		clear_term();
-		ft_putstr(RED_FONT);
-		ft_putendl("You have deleted all files. Bye-bye");
+		ft_putstr_fd(RED_FONT, 2);
+		ft_putendl_fd("You have deleted all files. Bye-bye", 2);
 		sleep(1);
 		set_default_mode(data);
 		exit(0);
@@ -48,7 +48,7 @@ void 	ft_list_remove_node(t_select *data, t_args *node_to_delete)
 	node_to_delete->prev->next = node_to_delete->next;
 	node_to_delete->next->prev = node_to_delete->prev;
 	node_to_delete->next->underline = 1;
-	data->args = next;
+	data->args = (i == 0) ? next : data->args;
 	ft_strdel(&node_to_delete->value);
 	free(node_to_delete);
 }

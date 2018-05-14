@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 18:00:08 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 17:57:37 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 11:12:57 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	remove_arg(t_select *data)
 	{
 		if (list->underline == 1)
 		{
-			ft_list_remove_node(data, list);
+			ft_list_remove_node(data, list, i);
 			break ;
 		}
 		list = list->next;
@@ -99,15 +99,15 @@ int		check_win_size(t_select *data, int cur_width, int max_width)
 {
 	if (cur_width + max_width > data->win.ws_col) {
 		clear_term();
-		ft_putstr(RED_FONT);
-		ft_putendl("Your window is too small to show all files.");
-		ft_putstr("Please, resize it before doing something");
+		ft_putstr_fd(RED_FONT, 2);
+		ft_putendl_fd("Your window is too small to show all files.", 2);
+		ft_putstr_fd("Please, resize it before doing something", 2);
 		if (data->win.ws_col <= 44)
 		{
 			clear_term();
-			ft_putstr("ERROR");
+			ft_putstr_fd("ERROR", 2);
 		}
-		ft_putstr(COLOR_OFF);
+		ft_putstr_fd(COLOR_OFF, 2);
 		return (1);
 	}
 	return (0);

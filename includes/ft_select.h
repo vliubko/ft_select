@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/11 17:44:12 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/14 12:53:01 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 //# include <sys/param.h>
 # include <term.h>
 # include <curses.h>
+# include <sys/stat.h>
+# include <sys/param.h>
 
 typedef struct		s_args
 {
 	char			*value;
 	int 			select;
 	int 			underline;
+	int 			type;
 	struct s_args	*next;
 	struct s_args	*prev;
 }					t_args;
@@ -42,7 +45,8 @@ typedef struct		s_select
 }					t_select;
 
 # define 	BLUE_FONT "\e[38;5;69m"
-# define 	RED_FONT "\e[38;5;196m"
+# define 	RED_FONT "\033[1;31m"
+# define 	CYAN_FONT "\e[1;36m"
 # define 	GREEN_FONT "\e[38;5;46m"
 # define 	YELLOW_FONT "\e[38;5;226m"
 # define 	COLOR_OFF "\e[0m"
@@ -58,7 +62,7 @@ typedef struct		s_select
 # define	DOWN_ARROW	4348699
 
 void	ft_list_pushback(t_args **alst, t_args *new_node);
-void 	ft_list_remove_node(t_select *data, t_args *node);
+void 	ft_list_remove_node(t_select *data, t_args *node, int i);
 void	execution(t_select data);
 void	set_default_mode(t_select *data);
 void	set_raw_mode(t_select *data);
