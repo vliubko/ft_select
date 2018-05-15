@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   term_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 16:43:46 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/15 17:19:45 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/15 17:36:47 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	term_print_legend(t_select *data)
 {
 	int		col;
 
-	ft_putstr(BG_COLOR);
+	ft_putstr_fd(BG_COLOR, 2);
 	tputs(tgoto(tgetstr("cm", NULL), 0, data->win.ws_row), 1, &term_putchar);
-	ft_putstr(BOLD_WHINE_FONT);
-	ft_putstr("Welcome to ft_select by vliubko. Nice to meet you, @xlogin");
+	ft_putstr_fd(BOLD_WHINE_FONT, 2);
+	ft_putstr_fd("Welcome to ft_select by vliubko. Nice to meet you, @xlogin", 2);
 	col = 58;
 	while (col++ < data->win.ws_col)
-		ft_putstr(" ");
-	ft_putstr(COLOR_OFF);
+		ft_putstr_fd(" ", 2);
+	ft_putstr_fd(COLOR_OFF, 2);
 	tputs(tgoto(tgetstr("cm", NULL), 0, 0), 1, &term_putchar);
 }
 

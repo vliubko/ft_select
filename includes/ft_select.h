@@ -46,11 +46,9 @@ typedef struct		s_select
 # define BG_COLOR "\e[48;5;29m"
 # define RED_FONT "\033[1;31m"
 # define CYAN_FONT "\e[1;36m"
-# define GREEN_FONT "\e[38;5;46m"
 # define PURPLE_FONT "\e[1;35m"
 # define YELLOW_FONT "\e[38;5;226m"
 # define COLOR_OFF "\e[0m"
-# define CLEAR "\033[H\033[2J"
 # define ESC 		32539
 # define ESC_ALTERN	27
 # define BACKSPACE	127
@@ -74,7 +72,6 @@ void				execution(t_select data);
 void				set_raw_mode(t_select *data);
 void				set_default_mode(t_select *data);
 void				get_winsize(struct winsize *win);
-int					count_max_cols(t_select *data);
 int					count_max_size(t_select *data);
 int					term_putchar(int c);
 void				put_color_arg_type(t_args *node);

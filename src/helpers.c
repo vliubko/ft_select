@@ -22,16 +22,6 @@ void	clear_term(void)
 	tputs(tgetstr("cl", NULL), 1, &term_putchar);
 }
 
-int		count_max_cols(t_select *data)
-{
-	int		cols;
-
-	cols = data->length / (data->win.ws_col - 1);
-	if (!cols)
-		cols = 1;
-	return (cols);
-}
-
 int		count_max_size(t_select *data)
 {
 	t_args	*list;
