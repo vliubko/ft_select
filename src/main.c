@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:38:18 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 19:00:19 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/15 12:33:56 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,9 @@ t_select	*data_keeper(t_select *dt)
 
 void	exit_signal(t_select *data)
 {
-	set_default_mode(data);
 	ft_free_select(data);
+	clear_term();
+	set_default_mode(data);
 	exit(0);
 }
 
@@ -205,20 +206,21 @@ void	sig_callback(int signo)
 	t_select 	*data;
 
 	data = data_keeper(NULL);
-	clear_term();
-	ft_putnbr(signo);
-	sleep(2);
 	if (signo == SIGINT || signo == SIGABRT || signo == SIGSTOP ||
 		signo == SIGKILL || signo == SIGQUIT)
 	{
-//		clear_term();
-//		ft_putendl("EXIT NOW!");
-//		sleep(2);
+		printf("killing process %d\n",getpid());
+		sleep(2);
 		exit_signal(data);
 	}
-
 	else if (signo == SIGWINCH)
 		handle_winch();
+	else if (signo == SIGTSTP)
+	{
+		printf("ztrl_\n");
+		sleep(2);
+		exit(0);
+	}
 }
 
 void	signals(void)

@@ -6,7 +6,7 @@
 /*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 14:40:30 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 18:30:08 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/15 12:08:14 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 # define FT_SELECT_H
 
 # include "../libft/includes/libft.h"
-//# include <termcap.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <signal.h>
-//# include <sys/param.h>
 # include <term.h>
-# include <curses.h>
+# include <termcap.h>
 # include <sys/stat.h>
 # include <sys/param.h>
+
 
 typedef struct		s_args
 {
@@ -83,6 +81,7 @@ void	clear_term(void);
 void	ft_free_select(t_select *data);
 void	handle_winch(void);
 void	signals(void);
+void	sig_callback(int signo);
 
 
 #endif
