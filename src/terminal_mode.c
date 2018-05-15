@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_mode.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 16:31:26 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/15 13:01:05 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/15 17:06:18 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_raw_mode(t_select *data)
 		ft_error("Can't find TERM in env\n");
 	if (tcgetattr(0, &data->tty) == -1)
 		ft_error("Can't get attr terminal\n");
-	data->savetty = data->tty;
+	tcgetattr(0, &data->savetty);
 	data->tty.c_lflag &= ~ECHO;
 	data->tty.c_lflag &= ~ICANON;
 	data->tty.c_cc[VMIN] = 1;
@@ -34,9 +34,6 @@ void	set_default_mode(t_select *data)
 {
 	tputs(tgetstr("ve", NULL), 1, &term_putchar);
 	tputs(tgetstr("te", NULL), 1, &term_putchar);
-	data->tty = data->savetty;
-	//data->tty.c_lflag |= ICANON;
-	//data->tty.c_lflag |= ECHO;
-	if (tcsetattr(0, TCSAFLUSH, &data->tty))
+	if (tcsetattr(0, TCSAFLUSH, &data->savetty))
 		ft_error("Can't set attr terminal\n");
 }

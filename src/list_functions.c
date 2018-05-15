@@ -3,34 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   list_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vliubko <vliubko@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: vliubko <vliubko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:35:48 by vliubko           #+#    #+#             */
-/*   Updated: 2018/05/14 13:03:04 by vliubko          ###   ########.fr       */
+/*   Updated: 2018/05/15 17:03:34 by vliubko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	ft_list_pushback(t_args **alst, t_args *new_node)
-{
-	t_args	*tmp;
-
-	if (!new_node || !alst)
-		return ;
-	while (*alst && (*alst)->next)
-		alst = &(*alst)->next;
-	tmp = *alst;
-	if (*alst)
-		(*alst)->next = new_node;
-	else
-		*alst = new_node;
-	new_node->prev = tmp;
-}
-
 void	ft_free_select(t_select *data)
 {
-	int 	i;
+	int		i;
 	t_args	*delete;
 
 	i = 0;
@@ -44,7 +28,7 @@ void	ft_free_select(t_select *data)
 	}
 }
 
-void 	ft_list_remove_node(t_select *data, t_args *node_to_delete, int i)
+void	remove_node(t_select *data, t_args *node_to_delete, int i)
 {
 	t_args *next;
 
@@ -67,4 +51,45 @@ void 	ft_list_remove_node(t_select *data, t_args *node_to_delete, int i)
 	data->args = (i == 0) ? next : data->args;
 	ft_strdel(&node_to_delete->value);
 	free(node_to_delete);
+}
+
+int		get_arg_type(char *value)
+{
+	char		*fullpath;
+	char		cur_dir[MAXPATHLEN];
+	struct stat	s;
+
+	if (value[0] != '/')
+	{
+		fullpath = ft_pathjoin(getcwd(cur_dir, MAXPATHLEN), value);
+		if (lstat(fullpath, &s) == -1)
+		{
+			ft_strdel(&fullpath);
+			return (-1);
+		}
+		ft_strdel(&fullpath);
+	}
+	else if (lstat(value, &s) == -1)
+		return (-1);
+	if (S_ISDIR(s.st_mode))
+		return (1);
+	if (S_ISLNK(s.st_mode))
+		return (3);
+	if (s.st_mode & S_IXUSR)
+		return (2);
+	return (0);
+}
+
+t_args	*create_node(char *name, int first)
+{
+	t_args	*tmp;
+
+	tmp = (t_args*)malloc(sizeof(t_args));
+	tmp->value = ft_strdup(name);
+	tmp->underline = (first == 1) ? 1 : 0;
+	tmp->select = 0;
+	tmp->type = get_arg_type(tmp->value);
+	tmp->prev = NULL;
+	tmp->next = NULL;
+	return (tmp);
 }
